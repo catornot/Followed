@@ -15,9 +15,7 @@ def main():
     for root, dirs, files in os.walk( os.path.join( os.getcwd(), "levels" ) ):
         for file in files:
             file = file.split( "." )
-            if file[1] == "py":
-                continue
-            else:
+            if file[1] == "txt":
                 if file[0].startswith( "level" ):
                     max_level_id += 1
     
