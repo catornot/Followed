@@ -12,9 +12,9 @@ class Main(object):
     def __init__(self):
         pygame.init()
 
-        self.SCREEN_W = 920
+        self.SCREEN_W = 960
         self.SCREEN_H = 640
-        self.SCREEN_C = (round(self.SCREEN_W / 2), round(self.SCREEN_H / 2))
+        self.SCREEN_C = (self.SCREEN_W / 2, self.SCREEN_H / 2)
         self.SCREEN = pygame.display.set_mode((self.SCREEN_W, self.SCREEN_H))
         self.CLOCK = pygame.time.Clock()
 
@@ -36,7 +36,7 @@ class Main(object):
             "game": Game(self),
             "transition": Transition(self)}
 
-        self._state = "intro"
+        self._state = "game"
 
     def events(self):
         self._events.clear()
@@ -47,6 +47,26 @@ class Main(object):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self._events["mousebuttondown"] = event
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    self._events["keydown-left"] = True
+                elif event.key == pygame.K_RIGHT:
+                    self._events["keydown-right"] = True
+                elif event.key == pygame.K_UP:
+                    self._events["keydown-up"] = True
+                elif event.key == pygame.K_DOWN:
+                    self._events["keydown-down"] = True
+
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    self._events["keydown-left"] = False
+                elif event.key == pygame.K_RIGHT:
+                    self._events["keydown-right"] = False
+                elif event.key == pygame.K_UP:
+                    self._events["keydown-up"] = False
+                elif event.key == pygame.K_DOWN:
+                    self._events["keydown-down"] = False
 
     def update(self):
         self._states[self._state].update(self._events)
