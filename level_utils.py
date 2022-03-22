@@ -68,6 +68,10 @@ class Level:
         LevelStruct["exit"] = self.exit
 
         return LevelStruct
+    
+    def Getblocks( self ) -> list:
+        return self.blocks
+
         
 
         
