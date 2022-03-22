@@ -17,15 +17,19 @@ class Game(State):
         if events.get("keydown-left"):
             self.level.player.move("left")
             self.level.twin.move("right")
+            self.manager.screenshake()
         elif events.get("keydown-right"):
             self.level.player.move("right")
             self.level.twin.move("left")
+            self.manager.screenshake()
         elif events.get("keydown-up"):
             self.level.player.move("up")
             self.level.twin.move("down")
+            self.manager.screenshake()
         elif events.get("keydown-down"):
             self.level.player.move("down")
             self.level.twin.move("up")
+            self.manager.screenshake()
 
     def render(self, surface):
         self.level.render(surface)
