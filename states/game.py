@@ -4,12 +4,10 @@ from states.state import State
 LevelAmount = 1
 
 from level import Level
-# from utils import Utils
 
 class Game(State):
     def setup(self):
         self.level = Level()
-        # self.levels = Utils.read_levels("levels")
         self.current_level = 0
         self.load_level(self.current_level)
 
@@ -28,13 +26,13 @@ class Game(State):
 
     def update(self, events):
         if events.get("keydown-left"):
-            if not self.level.move("left"): self.manager.screenshake()
+            self.level.move("left")
         elif events.get("keydown-right"):
-            if not self.level.move("right"): self.manager.screenshake()
+            self.level.move("right")
         elif events.get("keydown-up"):
-            if not self.level.move("up"): self.manager.screenshake()
+            self.level.move("up")
         elif events.get("keydown-down"):
-            if not self.level.move("down"): self.manager.screenshake()
+            self.level.move("down")
 
     def render(self, surface):
         self.level.render(surface)
