@@ -1,7 +1,7 @@
 import os
 
-LevelWidth = 16
-LevelHeight = 9
+LevelWidth = 30
+LevelHeight = 20
 
 """
 This script generates a blank level
@@ -24,7 +24,7 @@ def main():
     for y in range(LevelHeight):
         BlankLevel += f'{"0" * LevelWidth }\n'
     
-    with open(f"levels/level{max_level_id}", "w") as file:
+    with open(f"levels/level{max_level_id}.txt", "w") as file:
         file.write( BlankLevel )
             
             

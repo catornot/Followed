@@ -1,17 +1,30 @@
 from states.state import State
 
+#constants
+LevelAmount = 1
+
 from level import Level
-from utils import Utils
+# from utils import Utils
 
 class Game(State):
     def setup(self):
         self.level = Level()
-        self.levels = Utils.read_levels("levels")
+        # self.levels = Utils.read_levels("levels")
         self.current_level = 0
         self.load_level(self.current_level)
 
-    def load_level(self, level):
-        self.level.load_level(self.levels[level])
+    
+    def next_level(self):
+        self.current_level += 1
+        if self.current_level >= len(LevelAmount):
+            self.current_level = 0
+        self.level.loadLevelByIndex(self.current_level)
+
+    def restart_level(self):
+        self.level.loadLevelByIndex(self.current_level)
+
+    def load_level(self, level:int):
+        self.level.loadLevelByIndex(level)
 
     def update(self, events):
         if events.get("keydown-left"):
