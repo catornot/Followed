@@ -69,12 +69,33 @@ class Level:
 
         return LevelStruct
     
-    def Getblocks( self ) -> list:
+    def GetBlocks( self ) -> list:
         return self.blocks
+    def GetBlocksByIndex( self, Index:int ) -> tuple:
+        return self.blocks[Index]
+    
+    def GetTraps( self ) -> list:
+        return self.traps
+    def GetTrapsByIndex( self, Index:int ) -> tuple:
+        return self.traps[Index]
+    
+    def GetPlayerSpawnPoint( self ) -> tuple:
+        return self.player
+    
+    def GetTwinSpawnPoint( self ) -> tuple:
+        return self.twin
+    
+    def GetExitSpawnPoint( self ) -> tuple:
+        return self.exit
+    
+    # def GetEntityOnGridlocation( self, row:int, column:int )
+    #     LevelStruct = []
 
-        
-
-        
+    #     LevelStruct["blocks"] = self.blocks
+    #     LevelStruct["traps"] = self.traps
+    #     LevelStruct["spawnPoint"] = self.player
+    #     LevelStruct["twinSpawnPoint"] = self.twin
+    #     LevelStruct.append( self.exit )
 
 def LoadLevel( levelName:str ) -> Level:
     with open(f"levels/{levelName}", "r") as file:
@@ -99,10 +120,10 @@ def LoadLevel( levelName:str ) -> Level:
 def loadLevelByName( Name:str ) -> Level:
     return LoadLevel( Name )
 
-def loadLevelById( Id:int ) -> Level:
-    return LoadLevel( f"level{Id}" )
+def loadLevelByIndex( Index:int ) -> Level:
+    return LoadLevel( f"level{Index}" )
 
 
 if __name__ == '__main__':
     # this is for testing
-    print( loadLevelById( 0 ).GetAsDict() )
+    print( loadLevelByIndex( 0 ).GetAsDict() )
