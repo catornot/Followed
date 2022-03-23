@@ -26,7 +26,8 @@ class Main(object):
         self.screen_shake = {
             "intensity": 0,
             "duration": 0,
-            "active": False}
+            "active": False
+        }
 
         self._events = {}
 
@@ -34,7 +35,8 @@ class Main(object):
             "intro": Intro(self),
             "menu": Menu(self),
             "game": Game(self),
-            "transition": Transition(self)}
+            "transition": Transition(self)
+        }
 
         self._state = "game"
 
@@ -49,24 +51,28 @@ class Main(object):
                     self._events["mousebuttondown"] = event
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     self._events["keydown-left"] = True
-                elif event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     self._events["keydown-right"] = True
-                elif event.key == pygame.K_UP:
+                elif event.key == pygame.K_UP or event.key == pygame.K_w:
                     self._events["keydown-up"] = True
-                elif event.key == pygame.K_DOWN:
+                elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     self._events["keydown-down"] = True
+                elif event.key == pygame.K_r:
+                    self._events["restart"] = True
 
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     self._events["keydown-left"] = False
-                elif event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     self._events["keydown-right"] = False
-                elif event.key == pygame.K_UP:
+                elif event.key == pygame.K_UP or event.key == pygame.K_w:
                     self._events["keydown-up"] = False
-                elif event.key == pygame.K_DOWN:
+                elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     self._events["keydown-down"] = False
+                elif event.key == pygame.K_r:
+                    self._events["restart"] = False
 
     def update(self):
         self._states[self._state].update(self._events)

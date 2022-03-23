@@ -24,10 +24,11 @@ class Level(object):
 
     the level entities are :
     b : block
-    t : trap
+    T : trap
     p : player spawnpoint
-    T : twin spawnpoint
+    t : twin spawnpoint
     e : exit spawnpoint
+    k : key
     """
 
     def __init__(self, LevelStruct:list = None ) -> None:
@@ -207,6 +208,11 @@ class Level(object):
         return self.traps
     def GetTrapsByIndex( self, Index:int ) -> tuple:
         return self.traps[Index]
+    
+    def GetKeys( self ) -> list:
+        return self.keys
+    def GetKeyByIndex( self, Index:int ) -> tuple:
+        return self.keys[Index]
     
     def GetPlayer( self ) -> Player:
         return self.player
