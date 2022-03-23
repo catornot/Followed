@@ -24,10 +24,11 @@ class Level(object):
 
     the level entities are :
     b : block
-    t : trap
+    T : trap
     p : player spawnpoint
-    T : twin spawnpoint
+    t : twin spawnpoint
     e : exit spawnpoint
+    k : key
     """
 
     def __init__(self, LevelStruct:list = None ) -> None:

@@ -28,8 +28,14 @@ jobs:
         with:
           python-version: 3.10.2
 
-      - name: Get pygame
-        run: python -m pip install pygame
+      # - name: Get pygame
+      #   run: python -m pip install pygame
+
+      - name: Get pytest
+        run: python -m pip install -U pytest
         
-      - name: Run Game
-        run: python main.py
+      # - name: Run Game
+      #   run: python main.py
+
+      - name: Test game functions
+        run: pytest test_game.py
