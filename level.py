@@ -11,7 +11,7 @@ LevelWidth = 30
 LevelHeight = 20
 
 class Level(object):
-    
+
     """
     The Level is used to store information about the level XD
     
@@ -77,8 +77,8 @@ class Level(object):
 
         return level
     
-    def loadLevelByName( self, Name:str ) -> None:
-        self.load_level( Name )
+    def loadLevelByName(self, Name:str) -> None:
+        self.load_level(Name)
 
     def loadLevelByIndex( self, Index:int ) -> None:
         self.load_level( f"level{Index}" )
@@ -97,7 +97,7 @@ class Level(object):
                 if not [self.player.x, self.player.y - 1] in positions:
                     self.player.move("up")
             case "down":
-                if not [self.player.x - 1, self.player.y + 1] in positions:
+                if not [self.player.x, self.player.y + 1] in positions:
                     self.player.move("down")
         
         twin_direction = self.twin.move_toward(self.player.x, self.player.y)
