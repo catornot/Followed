@@ -11,7 +11,6 @@ class Game(State):
         self.current_level = 0
         self.load_level(self.current_level)
 
-    
     def next_level(self):
         self.current_level += 1
         if self.current_level >= len(LevelAmount):

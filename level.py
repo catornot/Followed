@@ -41,8 +41,7 @@ class Level(object):
             self.keys:list = LevelStruct["keys"]
         else:
             self.traps:list = []
-            self.player:Player = ()
-            self.exit:Exit = Exit( 0, 0 )
+            self.exit:Exit = Exit(0, 0)
             self.player:Player = Player(0, 0)
             self.twin:Twin = Twin(0, 0)
             self.boundaries:list = []
@@ -54,22 +53,27 @@ class Level(object):
 
         with open(f"levels/{levelName}.txt", "r") as file:
             data = file.read().split("\n")
+
+        _map = []
+        for row in data:
+            _map.append(list(row))
+
         level = Level()
-        for row in range( LevelHeight ):
-            for column in range( LevelWidth ):
-                match data[row][column]:
+        for y, row in enumerate(_map):
+            for x, block in enumerate(row):
+                match block:
                     case "p":
-                        self.SetPlayer(column, row)
+                        self.SetPlayer(x, y)
                     case "t":
-                        self.SetTwin(column, row)
+                        self.SetTwin(x, y)
                     case "b":
-                        self.addBoundaries(column, row)
+                        self.addBoundaries(x, y)
                     case "T":
-                        self.addTrap( column, row )
+                        self.addTrap(x, y)
                     case "e":
-                        self.SetExit( column, row )
+                        self.SetExit(x, y)
                     case "k":
-                        self.addKey( column, row )
+                        self.addKey(x, y)
 
         return level
     
@@ -133,23 +137,23 @@ class Level(object):
         self.traps.clear()
         self.keys.clear()
     
-    def addBoundaries( self, row:int, column:int ) -> None:
-        self.boundaries.append( Boundary( row, column ) )
+    def addBoundaries( self, x:int, y:int ) -> None:
+        self.boundaries.append(Boundary(x, y))
     
-    def addTrap( self, row:int, column:int ) -> None:
-        self.traps.append( Trap( row, column ) )
+    def addTrap( self, x:int, y:int ) -> None:
+        self.traps.append(Trap(x, y))
     
-    def addKey( self, row:int, column:int ) -> None:
-        self.keys.append( Key( row, column ) )
+    def addKey( self, x:int, y:int ) -> None:
+        self.keys.append(Key(x, y))
     
-    def SetPlayer( self, row:int, column:int ) -> None:
-        self.player.move_to(column, row)
+    def SetPlayer( self, x:int, y:int ) -> None:
+        self.player.move_to(x, y)
     
-    def SetTwin( self, row:int, column:int ) -> None:
-        self.twin.move_to(column, row)
+    def SetTwin( self, x:int, y:int ) -> None:
+        self.twin.move_to(x, y)
     
-    def SetExit( self, row:int, column:int ) -> None:
-        self.exit.move_to( row, column )
+    def SetExit( self, x:int, y:int ) -> None:
+        self.exit.move_to(x, y)
     
     def GetAsDict( self ) -> dict:
         LevelStruct = {}
