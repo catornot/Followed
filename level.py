@@ -33,7 +33,7 @@ class Level(object):
     def __init__(self, LevelStruct:list = None ) -> None:
 
         if LevelStruct != None:
-            self.blocks:list = LevelStruct["boundaries"]
+            self.boundaries:list = LevelStruct["boundaries"]
             self.traps:list = LevelStruct["traps"]
             self.player:Player = LevelStruct["player"]
             self.twin:Twin = LevelStruct["twin"]
@@ -84,36 +84,67 @@ class Level(object):
         self.load_level( f"level{Index}" )
 
     def move(self, direction):
-        positions = [[boundary.x, boundary.y] for boundary in self.boundaries]
+        blocks = [self.player, self.twin, self.exit]
+        blocks += [boundary for boundary in self.boundaries]
+        blocks += [trap for trap in self.traps]
+        blocks += [key for key in self.keys]
+
+        player_going_to = [0, 0]
 
         match direction:
             case "left":
-                if not [self.player.x - 1, self.player.y] in positions:
-                    self.player.move("left")
+                player_going_to[0] = self.player.x - 1
+                player_going_to[1] = self.player.y
             case "right":
-                if not [self.player.x + 1, self.player.y] in positions:
-                    self.player.move("right")
+                player_going_to[0] = self.player.x + 1
+                player_going_to[1] = self.player.y
             case "up":
-                if not [self.player.x, self.player.y - 1] in positions:
-                    self.player.move("up")
+                player_going_to[0] = self.player.x
+                player_going_to[1] = self.player.y - 1
             case "down":
-                if not [self.player.x, self.player.y + 1] in positions:
-                    self.player.move("down")
-        
+                player_going_to[0] = self.player.x
+                player_going_to[1] = self.player.y + 1
+
+        for block in blocks:
+            if block.collide(player_going_to[0], player_going_to[1]) and block != self.player:
+                if isinstance(block, Key):
+                    # What to do if you hit a key
+                    continue
+                elif isinstance(block, Exit):
+                    # What to do if you hit a Exit
+                    continue
+                break
+        else:
+            self.player.move(direction)
+
         twin_direction = self.twin.move_toward(self.player.x, self.player.y)
+        twin_going_to = [0, 0]
+
         match twin_direction:
             case "left":
-                if not [self.twin.x - 1, self.twin.y] in positions:
-                    self.twin.move("left")
+                twin_going_to[0] = self.twin.x - 1
+                twin_going_to[1] = self.twin.y
             case "right":
-                if not [self.twin.x + 1, self.twin.y] in positions:
-                    self.twin.move("right")
+                twin_going_to[0] = self.twin.x + 1
+                twin_going_to[1] = self.twin.y
             case "up":
-                if not [self.twin.x, self.twin.y - 1] in positions:
-                    self.twin.move("up")
+                twin_going_to[0] = self.twin.x
+                twin_going_to[1] = self.twin.y - 1
             case "down":
-                if not [self.twin.x, self.twin.y + 1] in positions:
-                    self.twin.move("down")
+                twin_going_to[0] = self.twin.x
+                twin_going_to[1] = self.twin.y + 1
+
+        for block in blocks:
+            if block.collide(twin_going_to[0], twin_going_to[1]) and block != self.twin:
+                if isinstance(block, Key):
+                    # What to do if you hit a key
+                    continue
+                elif isinstance(block, Exit):
+                    # What to do if you hit a Exit
+                    continue
+                break
+        else:
+            self.twin.move(twin_direction)
 
     def render(self, surface) -> None:
         self.player.render(surface)

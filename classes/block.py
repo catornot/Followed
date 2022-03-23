@@ -8,6 +8,11 @@ class Block(object):
         self.h = h
         self.color = color
 
+    def collide(self, x, y):
+        if self.x == x and self.y == y:
+            return True
+        return False
+
     def move(self, direction):
         match direction:
             case "left":
