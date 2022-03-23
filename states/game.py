@@ -1,7 +1,7 @@
 from states.state import State
 
 #constants
-LevelAmount = 1
+LevelAmount = 2
 
 from level import Level
 
@@ -32,6 +32,9 @@ class Game(State):
             self.level.move("up")
         elif events.get("keydown-down"):
             self.level.move("down")
+        
+        if events.get("restart"):
+            self.restart_level()
 
     def render(self, surface):
         self.level.render(surface)

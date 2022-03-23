@@ -59,6 +59,8 @@ class Main(object):
                     self._events["keydown-up"] = True
                 elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     self._events["keydown-down"] = True
+                elif event.key == pygame.K_r:
+                    self._events["restart"] = True
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_a:
@@ -69,6 +71,8 @@ class Main(object):
                     self._events["keydown-up"] = False
                 elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     self._events["keydown-down"] = False
+                elif event.key == pygame.K_r:
+                    self._events["restart"] = False
 
     def update(self):
         self._states[self._state].update(self._events)

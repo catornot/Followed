@@ -34,7 +34,7 @@ class Level(object):
     def __init__(self, LevelStruct:list = None ) -> None:
 
         if LevelStruct != None:
-            self.blocks:list = LevelStruct["boundaries"]
+            self.boundaries:list = LevelStruct["boundaries"]
             self.traps:list = LevelStruct["traps"]
             self.player:Player = LevelStruct["player"]
             self.twin:Twin = LevelStruct["twin"]
@@ -177,6 +177,11 @@ class Level(object):
         return self.traps
     def GetTrapsByIndex( self, Index:int ) -> tuple:
         return self.traps[Index]
+    
+    def GetKeys( self ) -> list:
+        return self.keys
+    def GetKeyByIndex( self, Index:int ) -> tuple:
+        return self.keys[Index]
     
     def GetPlayer( self ) -> Player:
         return self.player
