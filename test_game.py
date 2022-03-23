@@ -1,5 +1,5 @@
 import pytest
-from level import level
+from level import Level
 
 def test_game_functions():
     testLevel = Level()
