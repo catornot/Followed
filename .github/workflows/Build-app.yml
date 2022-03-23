@@ -9,7 +9,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        name: [build1, build2, build3]
 
     steps:
     - uses: actions/checkout@v3
