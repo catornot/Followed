@@ -21,11 +21,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install pyinstaller
         pip install pygame
-    - name: build with pyinstaller
+    - name: Build with pyinstaller
       run: |
         pyinstaller main.py --noconfirm --onefile --windowed --name "build"
-    - name: Upload Artifact
+    - name: Upload Build
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ matrix.os }}
+        name: dist/build.exe
         path: build.exe
