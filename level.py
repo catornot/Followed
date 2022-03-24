@@ -5,6 +5,8 @@ from classes.boundary import Boundary
 from classes.trap import Trap
 from classes.key import Key
 
+from utils import *
+
 # level constants
 # the width and height must be also in blankLevelGenerator.py
 LevelWidth = 30
@@ -47,6 +49,10 @@ class Level(object):
             self.twin:Twin = Twin(0, 0)
             self.boundaries:list = []
             self.keys:list = []
+        
+        self.requestNextLevel = False
+        
+        self._generateListOfBlocks()
     
     def load_level( self, levelName:str ) -> None:
 
@@ -85,11 +91,6 @@ class Level(object):
         self.load_level( f"level{Index}" )
 
     def move(self, direction):
-        blocks = [self.player, self.twin, self.exit]
-        blocks += [boundary for boundary in self.boundaries]
-        blocks += [trap for trap in self.traps]
-        blocks += [key for key in self.keys]
-
         player_going_to = [0, 0]
 
         match direction:
@@ -105,18 +106,26 @@ class Level(object):
             case "down":
                 player_going_to[0] = self.player.x
                 player_going_to[1] = self.player.y + 1
-
-        for block in blocks:
+        
+        resetBlockList = False
+        for block in self.blocks:
             if block.collide(player_going_to[0], player_going_to[1]) and block != self.player:
-                if isinstance(block, Key):
-                    # What to do if you hit a key
+                if IsKey( block ):
+                    self.player.PickupBlock( block )
+                    resetBlockList = True
+                    self.RemoveBlockByPosition( player_going_to )
                     continue
-                elif isinstance(block, Exit):
-                    # What to do if you hit a Exit
+                elif IsKeyActivated( block ):
+                    if IsExit( block ):
+                        self.requestNextLevel = True
+
                     continue
                 break
         else:
             self.player.move(direction)
+        
+        if resetBlockList:
+            self._generateListOfBlocks()
 
         twin_direction = self.twin.move_toward(self.player.x, self.player.y)
         twin_going_to = [0, 0]
@@ -135,12 +144,12 @@ class Level(object):
                 twin_going_to[0] = self.twin.x
                 twin_going_to[1] = self.twin.y + 1
 
-        for block in blocks:
+        for block in self.blocks:
             if block.collide(twin_going_to[0], twin_going_to[1]) and block != self.twin:
-                if isinstance(block, Key):
+                if IsKey( block ):
                     # What to do if you hit a key
                     continue
-                elif isinstance(block, Exit):
+                elif IsExit( block ):
                     # What to do if you hit a Exit
                     continue
                 break
@@ -169,14 +178,26 @@ class Level(object):
         self.traps.clear()
         self.keys.clear()
     
+    def _generateListOfBlocks( self ) -> None:
+        self.blocks = [self.player, self.twin, self.exit]
+        self.blocks += [boundary for boundary in self.boundaries]
+        self.blocks += [trap for trap in self.traps]
+        self.blocks += [key for key in self.keys]
+    
+    def AddToblockList( self, entity ) -> None:
+        self.blocks.append( entity )
+    
     def addBoundaries( self, x:int, y:int ) -> None:
         self.boundaries.append(Boundary(x, y))
+        self.AddToblockList( self.boundaries[len(self.boundaries)-1] )
     
     def addTrap( self, x:int, y:int ) -> None:
         self.traps.append(Trap(x, y))
+        self.AddToblockList( self.traps[len(self.traps)-1] )
     
     def addKey( self, x:int, y:int ) -> None:
         self.keys.append(Key(x, y))
+        self.AddToblockList( self.keys[len(self.keys)-1] )
     
     def SetPlayer( self, x:int, y:int ) -> None:
         self.player.move_to(x, y)
@@ -186,6 +207,34 @@ class Level(object):
     
     def SetExit( self, x:int, y:int ) -> None:
         self.exit.move_to(x, y)
+        self._generateListOfBlocks() # here I am calling the function to override the blocks list
+        # because I am lazy and I would have to search trouhgt the list to find the exit entity
+
+
+    def RemoveBlockByPosition( self, TargetPosition:tuple ):
+
+        for block in self.blocks:
+            if block.collide(TargetPosition[0], TargetPosition[1]):
+                if IsKey( block ):
+                    self._findBlockInListAndDestroyIt( block, self.keys )
+                elif IsTrap( block ):
+                    self._findBlockInListAndDestroyIt( block, self.traps )
+                elif IsBoundary( block ):
+                    self._findBlockInListAndDestroyIt( block, self.boundaries )
+                elif IsTwin( block ):
+                    raise TypeError
+                elif IsExit( block ):
+                    raise TypeError
+                elif IsPlayer( block ):
+                    raise TypeError
+    
+    def _findBlockInListAndDestroyIt( self, block, WorkingList:list ):
+        for block2 in WorkingList:
+            if block == block2:
+                WorkingList.pop( WorkingList.index( block ) )
+                return
+
+
     
     def GetAsDict( self ) -> dict:
         LevelStruct = {}

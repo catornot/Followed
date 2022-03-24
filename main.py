@@ -21,7 +21,8 @@ class Main(object):
         self.DISPLAY = pygame.Surface((self.SCREEN_W, self.SCREEN_H), flags=pygame.SRCALPHA)
 
         self.fonts = {
-            "general": pygame.font.Font("assets/fonts/oswald.ttf", 25)}
+            "general": pygame.font.Font("assets/fonts/oswald.ttf", 25)
+        }
 
         self.screen_shake = {
             "intensity": 0,

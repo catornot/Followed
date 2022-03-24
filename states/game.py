@@ -13,7 +13,7 @@ class Game(State):
 
     def next_level(self):
         self.current_level += 1
-        if self.current_level >= len(LevelAmount):
+        if self.current_level >= LevelAmount:
             self.current_level = 0
         self.level.loadLevelByIndex(self.current_level)
 
@@ -35,6 +35,10 @@ class Game(State):
         
         if events.get("restart"):
             self.restart_level()
+        
+        if self.level.requestNextLevel:
+            self.level.requestNextLevel = False
+            self.next_level()
 
     def render(self, surface):
         self.level.render(surface)
