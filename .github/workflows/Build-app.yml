@@ -56,7 +56,7 @@ jobs:
           PYTHONOPTIMIZE: 1 # Enable optimizations as if the -O flag is given.
           PYTHONHASHSEED: 42 # Try to ensure deterministic results.
         run: |
-          pyinstaller build.spec
+          pyinstaller build.spec -y
       # This step exists for debugging.  Such as checking if data files were included correctly by PyInstaller.
       - name: List distribution files
         run: |
