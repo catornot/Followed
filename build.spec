@@ -8,7 +8,7 @@ a = Analysis(
     binaries=[],
     datas=[
         ("assets", "assets"),
-        ("/levels/*.txt","levels")
+        ("levels","levels")
     ],  # Include all files in the 'data' directory.
     hiddenimports=[],
     hookspath=[],
@@ -31,7 +31,13 @@ exe = EXE(
     strip=False,
     upx=True,
     console=False,  # Set to False to disable the Windows terminal.
-    icon="/assets/icons/icon.ico",  # Windows icon file.
+    icon="assets/icons/icon.ico",  # Windows icon file.
+)
+app = BUNDLE(
+        exe,
+        name=PROJECT_NAME,
+        icon="assets/icons/icon.ico",
+        bundle_identifier=None
 )
 coll = COLLECT(
     exe,
