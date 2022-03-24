@@ -11,17 +11,17 @@ jobs:
         include:
           - os: macos-latest
             TARGET: macos
-            CMD_BUILD: >
-                pyinstaller main.py --noconfirm --onefile --windowed --name "build" &&
-                mv assets dist/build.app/Contents/Resources/assets &&
-                cd dist/ &&
-                zip -r9 build build.app/
+            CMD_BUILD1: pyinstaller main.py --noconfirm --onefile --windowed --name "mac-build" &&
+            CMD_BUILD2: mv assets dist/build.app/Contents/Resources/assets &&
+            CMD_BUILD3: cd dist/ &&
+            CMD_BUILD4: zip -r9 mac-build mac-build.app/
             OUT_FILE_NAME: mac-build.zip
           - os: windows-latest
             TARGET: windows
-            CMD_BUILD: pyinstaller main.py --noconfirm --onefile --windowed --name "build" &&
-                mv -Path ./assets -Destination ./dist/assets &&
-                Compress-Archive -Path './dist' -DestinationPath './dist/win-zip.zip'
+            CMD_BUILD1: pyinstaller main.py --noconfirm --onefile --windowed --name "win-build" &&
+            CMD_BUILD2: mv -Path ./assets -Destination ./dist/assets &&
+            CMD_BUILD3: Compress-Archive -Path './dist' -DestinationPath './dist/win-zip.zip'
+            CMD_BUILD4: echo "e"
             OUT_FILE_NAME: win-build.zip
     steps:
     - uses: actions/checkout@v3
