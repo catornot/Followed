@@ -13,13 +13,16 @@ jobs:
             TARGET: macos
             CMD_BUILD: >
                 pyinstaller main.py --noconfirm --onefile --windowed --name "build" &&
+                mv assets dist/build.app/Contents/Resources/assets &&
                 cd dist/ &&
                 zip -r9 build build.app/
-            OUT_FILE_NAME: build.zip
+            OUT_FILE_NAME: mac-build.zip
           - os: windows-latest
             TARGET: windows
-            CMD_BUILD: pyinstaller main.py --noconfirm --onefile --windowed --name "build"
-            OUT_FILE_NAME: build.exe
+            CMD_BUILD: pyinstaller main.py --noconfirm --onefile --windowed --name "build" &&
+                mv -Path ./assets -Destination ./dist/assets &&
+                Compress-Archive -Path './dist' -DestinationPath './dist/win-zip.zip'
+            OUT_FILE_NAME: win-build.zip
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10.2
