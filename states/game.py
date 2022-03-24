@@ -1,7 +1,7 @@
 from states.state import State
 
 #constants
-LevelAmount = 1
+LevelAmount = 2
 
 from level import Level
 
@@ -11,10 +11,9 @@ class Game(State):
         self.current_level = 0
         self.load_level(self.current_level)
 
-    
     def next_level(self):
         self.current_level += 1
-        if self.current_level >= len(LevelAmount):
+        if self.current_level >= LevelAmount:
             self.current_level = 0
         self.level.loadLevelByIndex(self.current_level)
 
@@ -33,6 +32,13 @@ class Game(State):
             self.level.move("up")
         elif events.get("keydown-down"):
             self.level.move("down")
+        
+        if events.get("restart"):
+            self.restart_level()
+        
+        if self.level.requestNextLevel:
+            self.level.requestNextLevel = False
+            self.next_level()
 
     def render(self, surface):
         self.level.render(surface)

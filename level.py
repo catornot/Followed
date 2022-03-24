@@ -5,13 +5,15 @@ from classes.boundary import Boundary
 from classes.trap import Trap
 from classes.key import Key
 
+from utils import *
+
 # level constants
 # the width and height must be also in blankLevelGenerator.py
 LevelWidth = 30
 LevelHeight = 20
 
 class Level(object):
-    
+
     """
     The Level is used to store information about the level XD
     
@@ -34,7 +36,7 @@ class Level(object):
     def __init__(self, LevelStruct:list = None ) -> None:
 
         if LevelStruct != None:
-            self.blocks:list = LevelStruct["boundaries"]
+            self.boundaries:list = LevelStruct["boundaries"]
             self.traps:list = LevelStruct["traps"]
             self.player:Player = LevelStruct["player"]
             self.twin:Twin = LevelStruct["twin"]
@@ -42,12 +44,15 @@ class Level(object):
             self.keys:list = LevelStruct["keys"]
         else:
             self.traps:list = []
-            self.player:Player = ()
-            self.exit:Exit = Exit( 0, 0 )
+            self.exit:Exit = Exit(0, 0)
             self.player:Player = Player(0, 0)
             self.twin:Twin = Twin(0, 0)
             self.boundaries:list = []
             self.keys:list = []
+        
+        self.requestNextLevel = False
+        
+        self._generateListOfBlocks()
     
     def load_level( self, levelName:str ) -> None:
 
@@ -55,62 +60,101 @@ class Level(object):
 
         with open(f"levels/{levelName}.txt", "r") as file:
             data = file.read().split("\n")
+
+        _map = []
+        for row in data:
+            _map.append(list(row))
+
         level = Level()
-        for row in range( LevelHeight ):
-            for column in range( LevelWidth ):
-                match data[row][column]:
+        for y, row in enumerate(_map):
+            for x, block in enumerate(row):
+                match block:
                     case "p":
-                        self.SetPlayer(column, row)
+                        self.SetPlayer(x, y)
                     case "t":
-                        self.SetTwin(column, row)
+                        self.SetTwin(x, y)
                     case "b":
-                        self.addBoundaries(column, row)
+                        self.addBoundaries(x, y)
                     case "T":
-                        self.addTrap( column, row )
+                        self.addTrap(x, y)
                     case "e":
-                        self.SetExit( column, row )
+                        self.SetExit(x, y)
                     case "k":
-                        self.addKey( column, row )
+                        self.addKey(x, y)
 
         return level
     
-    def loadLevelByName( self, Name:str ) -> None:
-        self.load_level( Name )
+    def loadLevelByName(self, Name:str) -> None:
+        self.load_level(Name)
 
     def loadLevelByIndex( self, Index:int ) -> None:
         self.load_level( f"level{Index}" )
 
     def move(self, direction):
-        positions = [[boundary.x, boundary.y] for boundary in self.boundaries]
+        player_going_to = [0, 0]
 
         match direction:
             case "left":
-                if not [self.player.x - 1, self.player.y] in positions:
-                    self.player.move("left")
+                player_going_to[0] = self.player.x - 1
+                player_going_to[1] = self.player.y
             case "right":
-                if not [self.player.x + 1, self.player.y] in positions:
-                    self.player.move("right")
+                player_going_to[0] = self.player.x + 1
+                player_going_to[1] = self.player.y
             case "up":
-                if not [self.player.x, self.player.y - 1] in positions:
-                    self.player.move("up")
+                player_going_to[0] = self.player.x
+                player_going_to[1] = self.player.y - 1
             case "down":
-                if not [self.player.x - 1, self.player.y + 1] in positions:
-                    self.player.move("down")
+                player_going_to[0] = self.player.x
+                player_going_to[1] = self.player.y + 1
         
+        resetBlockList = False
+        for block in self.blocks:
+            if block.collide(player_going_to[0], player_going_to[1]) and block != self.player:
+                if IsKey( block ):
+                    self.player.PickupBlock( block )
+                    resetBlockList = True
+                    self.RemoveBlockByPosition( player_going_to )
+                    continue
+                elif IsKeyActivated( block ):
+                    if IsExit( block ):
+                        self.requestNextLevel = True
+
+                    continue
+                break
+        else:
+            self.player.move(direction)
+        
+        if resetBlockList:
+            self._generateListOfBlocks()
+
         twin_direction = self.twin.move_toward(self.player.x, self.player.y)
+        twin_going_to = [0, 0]
+
         match twin_direction:
             case "left":
-                if not [self.twin.x - 1, self.twin.y] in positions:
-                    self.twin.move("left")
+                twin_going_to[0] = self.twin.x - 1
+                twin_going_to[1] = self.twin.y
             case "right":
-                if not [self.twin.x + 1, self.twin.y] in positions:
-                    self.twin.move("right")
+                twin_going_to[0] = self.twin.x + 1
+                twin_going_to[1] = self.twin.y
             case "up":
-                if not [self.twin.x, self.twin.y - 1] in positions:
-                    self.twin.move("up")
+                twin_going_to[0] = self.twin.x
+                twin_going_to[1] = self.twin.y - 1
             case "down":
-                if not [self.twin.x, self.twin.y + 1] in positions:
-                    self.twin.move("down")
+                twin_going_to[0] = self.twin.x
+                twin_going_to[1] = self.twin.y + 1
+
+        for block in self.blocks:
+            if block.collide(twin_going_to[0], twin_going_to[1]) and block != self.twin:
+                if IsKey( block ):
+                    # What to do if you hit a key
+                    continue
+                elif IsExit( block ):
+                    # What to do if you hit a Exit
+                    continue
+                break
+        else:
+            self.twin.move(twin_direction)
 
     def render(self, surface) -> None:
         self.player.render(surface)
@@ -134,23 +178,63 @@ class Level(object):
         self.traps.clear()
         self.keys.clear()
     
-    def addBoundaries( self, row:int, column:int ) -> None:
-        self.boundaries.append( Boundary( row, column ) )
+    def _generateListOfBlocks( self ) -> None:
+        self.blocks = [self.player, self.twin, self.exit]
+        self.blocks += [boundary for boundary in self.boundaries]
+        self.blocks += [trap for trap in self.traps]
+        self.blocks += [key for key in self.keys]
     
-    def addTrap( self, row:int, column:int ) -> None:
-        self.traps.append( Trap( row, column ) )
+    def AddToblockList( self, entity ) -> None:
+        self.blocks.append( entity )
     
-    def addKey( self, row:int, column:int ) -> None:
-        self.keys.append( Key( row, column ) )
+    def addBoundaries( self, x:int, y:int ) -> None:
+        self.boundaries.append(Boundary(x, y))
+        self.AddToblockList( self.boundaries[len(self.boundaries)-1] )
     
-    def SetPlayer( self, row:int, column:int ) -> None:
-        self.player.move_to(column, row)
+    def addTrap( self, x:int, y:int ) -> None:
+        self.traps.append(Trap(x, y))
+        self.AddToblockList( self.traps[len(self.traps)-1] )
     
-    def SetTwin( self, row:int, column:int ) -> None:
-        self.twin.move_to(column, row)
+    def addKey( self, x:int, y:int ) -> None:
+        self.keys.append(Key(x, y))
+        self.AddToblockList( self.keys[len(self.keys)-1] )
     
-    def SetExit( self, row:int, column:int ) -> None:
-        self.exit.move_to( row, column )
+    def SetPlayer( self, x:int, y:int ) -> None:
+        self.player.move_to(x, y)
+    
+    def SetTwin( self, x:int, y:int ) -> None:
+        self.twin.move_to(x, y)
+    
+    def SetExit( self, x:int, y:int ) -> None:
+        self.exit.move_to(x, y)
+        self._generateListOfBlocks() # here I am calling the function to override the blocks list
+        # because I am lazy and I would have to search trouhgt the list to find the exit entity
+
+
+    def RemoveBlockByPosition( self, TargetPosition:tuple ):
+
+        for block in self.blocks:
+            if block.collide(TargetPosition[0], TargetPosition[1]):
+                if IsKey( block ):
+                    self._findBlockInListAndDestroyIt( block, self.keys )
+                elif IsTrap( block ):
+                    self._findBlockInListAndDestroyIt( block, self.traps )
+                elif IsBoundary( block ):
+                    self._findBlockInListAndDestroyIt( block, self.boundaries )
+                elif IsTwin( block ):
+                    raise TypeError
+                elif IsExit( block ):
+                    raise TypeError
+                elif IsPlayer( block ):
+                    raise TypeError
+    
+    def _findBlockInListAndDestroyIt( self, block, WorkingList:list ):
+        for block2 in WorkingList:
+            if block == block2:
+                WorkingList.pop( WorkingList.index( block ) )
+                return
+
+
     
     def GetAsDict( self ) -> dict:
         LevelStruct = {}
@@ -173,6 +257,11 @@ class Level(object):
         return self.traps
     def GetTrapsByIndex( self, Index:int ) -> tuple:
         return self.traps[Index]
+    
+    def GetKeys( self ) -> list:
+        return self.keys
+    def GetKeyByIndex( self, Index:int ) -> tuple:
+        return self.keys[Index]
     
     def GetPlayer( self ) -> Player:
         return self.player
