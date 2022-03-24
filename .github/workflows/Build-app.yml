@@ -35,10 +35,11 @@ jobs:
         pip install pyinstaller
         pip install pygame
     - name: Build with pyinstaller for ${{matrix.TARGET}}
-      run: ${{matrix.CMD_BUILD1}}
-      run: ${{matrix.CMD_BUILD2}}
-      run: ${{matrix.CMD_BUILD3}}
-      run: ${{matrix.CMD_BUILD4}}
+      run: |
+        ${{matrix.CMD_BUILD1}}
+        ${{matrix.CMD_BUILD2}}
+        ${{matrix.CMD_BUILD3}}
+        ${{matrix.CMD_BUILD4}}
     - name: Upload Build
       uses: actions/upload-artifact@v3
       with:
