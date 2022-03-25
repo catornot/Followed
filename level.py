@@ -67,9 +67,9 @@ class Level(object):
         script_data = data[LevelHeight+1:]
         print( len(map_data[0]) )
         print( len(map_data) )
-        
+
         _map = []
-        for row in data:
+        for row in map_data:
             _map.append(list(row))
 
         level = Level()
