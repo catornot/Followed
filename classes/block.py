@@ -38,6 +38,9 @@ class Block(object):
     def move_to(self, x, y):
         self.x = x
         self.y = y
+    
+    def get_pos( self ):
+        return self.x, self.y
 
     def render(self, surface):
         pygame.draw.rect(surface, self.color, (self.x*self.w, self.y*self.h, self.w, self.h))
