@@ -70,7 +70,7 @@ class Main(object):
                     self._events["restart"] = True
                 elif event.key == pygame.K_l:
                     self._events["level"] = True
-                elif event.key == pygame.K_s:
+                elif event.key == pygame.K_y:
                     self._events["save"] = True
                 elif event.key == pygame.K_1:
                     self._events["1"] = True
@@ -106,7 +106,7 @@ class Main(object):
                     self._events["restart"] = False
                 elif event.key == pygame.K_l:
                     self._events["level"] = False
-                elif event.key == pygame.K_s:
+                elif event.key == pygame.K_y:
                     self._events["save"] = False
                 elif event.key == pygame.K_1:
                     self._events["1"] = False

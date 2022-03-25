@@ -17,6 +17,9 @@ import os
  ╚═════╝    ╚═╝   ╚═╝╚══════╝╚══════╝
 """
 
+LevelWidth = 30
+LevelHeight = 20
+
 def IsKey( entity ):
     return isinstance( entity, Key )
 
@@ -53,11 +56,6 @@ def IsKeyActivated( entity ):
         if entity.NeedsKey:
             return True
     return False
-
-LevelWidth = 30
-LevelHeight = 20
-
-
 
 
 def GenerateBlankLevel(level_name:str = "level") -> str:
@@ -97,7 +95,10 @@ def mouseToGrid() -> list:
 def MakeEmptyGridList() -> list:
     BlankGrid = []
     for y in range(LevelHeight):
-        BlankGrid.append( [f'{"0" * LevelWidth }\n'] )
+        line = []
+        for x in range(LevelWidth):
+            line.append( "0" )
+        BlankGrid.append( line )
     return BlankGrid
             
             

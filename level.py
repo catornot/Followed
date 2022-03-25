@@ -248,6 +248,9 @@ class Level(object):
 
         return LevelStruct
     
+    def GetAsList( self ) -> list:
+        return self.blocks
+    
     def GetBoundaries( self ) -> list:
         return self.boundaries
     def GetBoundaryByIndex( self, Index:int ) -> Boundary:
