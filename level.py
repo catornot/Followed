@@ -51,6 +51,7 @@ class Level(object):
             self.keys:list = []
         
         self.requestNextLevel = False
+        self.requestRestartLevel = False
         
         self._generateListOfBlocks()
     
@@ -115,10 +116,11 @@ class Level(object):
                     resetBlockList = True
                     self.RemoveBlockByPosition( player_going_to )
                     continue
+                elif IsTrap( block ):
+                    self.requestRestartLevel = True
                 elif IsKeyActivated( block ):
                     if IsExit( block ):
                         self.requestNextLevel = True
-
                     continue
                 break
         else:
@@ -147,10 +149,10 @@ class Level(object):
         for block in self.blocks:
             if block.collide(twin_going_to[0], twin_going_to[1]) and block != self.twin:
                 if IsKey( block ):
-                    # What to do if you hit a key
+                    self.keys.remove(block)
                     continue
-                elif IsExit( block ):
-                    # What to do if you hit a Exit
+                if IsTrap( block ):
+                    self.requestRestartLevel = True
                     continue
                 break
         else:

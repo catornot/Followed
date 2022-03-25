@@ -46,7 +46,7 @@ class Main(object):
             "level_editor": Editor(self)
         }
 
-        self._state = "intro"
+        self._state = "game"
 
     def events(self):
         self._events.clear()

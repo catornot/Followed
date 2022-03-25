@@ -39,6 +39,9 @@ class Game(State):
         if self.level.requestNextLevel:
             self.level.requestNextLevel = False
             self.next_level()
+        elif self.level.requestRestartLevel:
+            self.level.requestRestartLevel = False
+            self.restart_level()
 
     def render(self, surface):
         self.level.render(surface)
