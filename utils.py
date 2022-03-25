@@ -8,6 +8,15 @@ from pygame import mouse
 import os
 # from classes.block import Block
 
+"""
+██╗   ██╗████████╗██╗██╗     ███████╗
+██║   ██║╚══██╔══╝██║██║     ██╔════╝
+██║   ██║   ██║   ██║██║     ███████╗
+██║   ██║   ██║   ██║██║     ╚════██║
+╚██████╔╝   ██║   ██║███████╗███████║
+ ╚═════╝    ╚═╝   ╚═╝╚══════╝╚══════╝
+"""
+
 def IsKey( entity ):
     return isinstance( entity, Key )
 

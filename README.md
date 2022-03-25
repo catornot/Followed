@@ -13,4 +13,5 @@ to run this game you should have python 3.10 and pygame 2.1
 
 ## controls 
 **wasd/arrow keys** - movement
+
 **r** - restart level
