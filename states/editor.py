@@ -4,14 +4,19 @@ from utils import *
 from pygame import mouse
 
 class Editor(State):
+    def __init__(self, manager):
+        self.manager = manager
+
     def setup(self):
         self.level = Level()
         self.level_name = GenerateBlankLevel( "edited" )
         self.level.loadLevelByName( self.level_name )
         # self.level.loadLevelByName("testlevel")
+
         self.level.SetExit( -2,-1 )
         self.level.SetTwin( -3,-1 )
         self.level.SetPlayer( -1,-1 )
+
         self.KeysToFunctions = [
             [lambda x,y: x+y, "Nothing"],
             [self.level.addBoundaries, "Boundaries"],
@@ -60,10 +65,10 @@ class Editor(State):
             self.save_level()
 
 
-
     def render(self, surface):
         self.level.render(surface)
         self.manager.render_text(surface, f"You have achieved {self.selected}", self.manager.SCREEN_C[0], self.manager.SCREEN_H - 100)
+
 
     def save_level( self ) -> None:
         LevelList = self.level.GetAsList()

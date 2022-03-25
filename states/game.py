@@ -1,7 +1,7 @@
 from states.state import State
 
 #constants
-LevelAmount = 2
+LevelAmount = 3
 
 from level import Level
 

@@ -52,7 +52,8 @@ class Level(object):
         
         self.requestNextLevel = False
         self.requestRestartLevel = False
-        
+
+        self.maxMoves = 10
         self._generateListOfBlocks()
     
     def load_level( self, levelName:str ) -> None:
@@ -62,6 +63,11 @@ class Level(object):
         with open(f"levels/{levelName}.txt", "r") as file:
             data = file.read().split("\n")
 
+        map_data = data[:LevelHeight]
+        script_data = data[LevelHeight+1:]
+        print( len(map_data[0]) )
+        print( len(map_data) )
+        
         _map = []
         for row in data:
             _map.append(list(row))
@@ -82,6 +88,14 @@ class Level(object):
                         self.SetExit(x, y)
                     case "k":
                         self.addKey(x, y)
+        
+        for script in script_data:
+
+            if script.startswith( "!maxMoves" ):
+                self.maxMoves = int( script.split("=")[1] )
+
+            elif script.startswith( "!ExitNeedsKey" ):
+                if not bool( script.split("=")[1] ): self.exit.DisableKeyNeed()
 
         return level
     
