@@ -5,6 +5,7 @@ from states.intro import Intro
 from states.menu import Menu
 from states.game import Game
 from states.transition import Transition
+from states.editor import Editor
 
 import random
 
@@ -24,6 +25,11 @@ class Main(object):
             "general": pygame.font.Font("assets/fonts/oswald.ttf", 25)
         }
 
+        self.music = {
+            "transtion": pygame.mixer.Sound("assets/sfx/transtion.wav"),
+            "select": pygame.mixer.Sound("assets/sfx/select.wav")
+        }
+
         self.screen_shake = {
             "intensity": 0,
             "duration": 0,
@@ -36,10 +42,11 @@ class Main(object):
             "intro": Intro(self),
             "menu": Menu(self),
             "game": Game(self),
-            "transition": Transition(self)
+            "transition": Transition(self),
+            "level_editor": Editor(self)
         }
 
-        self._state = "game"
+        self._state = "intro"
 
     def events(self):
         self._events.clear()
@@ -48,8 +55,7 @@ class Main(object):
                 self.shutdown()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    self._events["mousebuttondown"] = event
+                self._events["mousebuttondown"] = event
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_a:
@@ -62,6 +68,30 @@ class Main(object):
                     self._events["keydown-down"] = True
                 elif event.key == pygame.K_r:
                     self._events["restart"] = True
+                elif event.key == pygame.K_l:
+                    self._events["level"] = True
+                elif event.key == pygame.K_s:
+                    self._events["save"] = True
+                elif event.key == pygame.K_1:
+                    self._events["1"] = True
+                elif event.key == pygame.K_2:
+                    self._events["2"] = True
+                elif event.key == pygame.K_3:
+                    self._events["3"] = True
+                elif event.key == pygame.K_4:
+                    self._events["4"] = True
+                elif event.key == pygame.K_5:
+                    self._events["5"] = True
+                elif event.key == pygame.K_6:
+                    self._events["6"] = True
+                elif event.key == pygame.K_7:
+                    self._events["7"] = True
+                elif event.key == pygame.K_8:
+                    self._events["8"] = True
+                elif event.key == pygame.K_9:
+                    self._events["9"] = True
+                elif event.key == pygame.K_0:
+                    self._events["0"] = True
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_a:
@@ -74,6 +104,30 @@ class Main(object):
                     self._events["keydown-down"] = False
                 elif event.key == pygame.K_r:
                     self._events["restart"] = False
+                elif event.key == pygame.K_l:
+                    self._events["level"] = False
+                elif event.key == pygame.K_s:
+                    self._events["save"] = False
+                elif event.key == pygame.K_1:
+                    self._events["1"] = False
+                elif event.key == pygame.K_2:
+                    self._events["2"] = False
+                elif event.key == pygame.K_3:
+                    self._events["3"] = False
+                elif event.key == pygame.K_4:
+                    self._events["4"] = False
+                elif event.key == pygame.K_5:
+                    self._events["5"] = False
+                elif event.key == pygame.K_6:
+                    self._events["6"] = False
+                elif event.key == pygame.K_7:
+                    self._events["7"] = False
+                elif event.key == pygame.K_8:
+                    self._events["8"] = False
+                elif event.key == pygame.K_9:
+                    self._events["9"] = False
+                elif event.key == pygame.K_0:
+                    self._events["0"] = False
 
     def update(self):
         self._states[self._state].update(self._events)

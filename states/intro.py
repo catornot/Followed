@@ -6,7 +6,9 @@ class Intro(State):
 
     def update(self, events):
         if events.get("mousebuttondown"):
-            self.manager.transition_to("menu")
+            if events["mousebuttondown"].button == 1:
+                self.manager.transition_to("menu")
+                self.manager.music["select"].play()
 
     def render(self, surface):
         self.manager.render_text(surface, "Intro", self.manager.SCREEN_C[0], 300)

@@ -222,11 +222,11 @@ class Level(object):
                 elif IsBoundary( block ):
                     self._findBlockInListAndDestroyIt( block, self.boundaries )
                 elif IsTwin( block ):
-                    raise TypeError
+                    self.SetTwin( -1,-1 )
                 elif IsExit( block ):
-                    raise TypeError
+                    self.SetExit( -7,-1 )
                 elif IsPlayer( block ):
-                    raise TypeError
+                    self.SetPlayer( -4,-1 )
     
     def _findBlockInListAndDestroyIt( self, block, WorkingList:list ):
         for block2 in WorkingList:
