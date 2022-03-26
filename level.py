@@ -4,6 +4,7 @@ from classes.exit import Exit
 from classes.boundary import Boundary
 from classes.trap import Trap
 from classes.key import Key
+from classes.text import Text
 
 from utils import *
 
@@ -42,6 +43,7 @@ class Level(object):
             self.twin:Twin = LevelStruct["twin"]
             self.exit:Exit = LevelStruct["exit"]
             self.keys:list = LevelStruct["keys"]
+            self.text:list = LevelStruct["text"]
         else:
             self.traps:list = []
             self.exit:Exit = Exit(0, 0)
@@ -49,6 +51,7 @@ class Level(object):
             self.twin:Twin = Twin(0, 0)
             self.boundaries:list = []
             self.keys:list = []
+            self.text:list = []
         
         self.requestNextLevel = False
         self.requestRestartLevel = False
@@ -65,8 +68,6 @@ class Level(object):
 
         map_data = data[:LevelHeight]
         script_data = data[LevelHeight+1:]
-        print( len(map_data[0]) )
-        print( len(map_data) )
 
         _map = []
         for row in map_data:
@@ -88,6 +89,8 @@ class Level(object):
                         self.SetExit(x, y)
                     case "k":
                         self.addKey(x, y)
+                    case "d":
+                        self.addText( x,y )
         
         for script in script_data:
 
@@ -96,6 +99,11 @@ class Level(object):
 
             elif script.startswith( "!ExitNeedsKey" ):
                 if not bool( script.split("=")[1] ): self.exit.DisableKeyNeed()
+            
+            elif script.startswith( "!AddText" ):
+                posNtext = script.split("=")[1].split(",")
+                self.addText( int( posNtext[0] ) * 32, int( posNtext[1] ) * 32 )
+                self.text[ len(self.text) - 1 ].SetText( posNtext[2] )
 
         return level
     
@@ -185,6 +193,9 @@ class Level(object):
 
         for key in self.keys:
             key.render(surface)
+        
+        for text in self.text:
+            text.render(surface)
     
     def ClearLevel( self ) -> None:
         self.player.move_to(0, 0)
@@ -193,6 +204,7 @@ class Level(object):
         self.boundaries.clear()
         self.traps.clear()
         self.keys.clear()
+        self.text.clear()
     
     def _generateListOfBlocks( self ) -> None:
         self.blocks = [self.player, self.twin, self.exit]
@@ -225,6 +237,10 @@ class Level(object):
         self.exit.move_to(x, y)
         self._generateListOfBlocks() # here I am calling the function to override the blocks list
         # because I am lazy and I would have to search trouhgt the list to find the exit entity
+    
+    def addText( self, x:int, y:int ) -> None:
+        self.text.append( Text(x, y) )
+        self.AddToblockList( self.text[len(self.text)-1] )
 
 
     def RemoveBlockByPosition( self, TargetPosition:tuple ):
@@ -249,6 +265,11 @@ class Level(object):
             if block == block2:
                 WorkingList.pop( WorkingList.index( block ) )
                 return
+    
+    def FindBlockByPosition( self, TargetPosition:tuple ):
+        for block in self.blocks:
+            if block.collide(TargetPosition[0], TargetPosition[1]):
+                return block
 
 
     
@@ -261,6 +282,7 @@ class Level(object):
         LevelStruct["twin"] = self.twin
         LevelStruct["exit"] = self.exit
         LevelStruct["keys"] = self.keys
+        LevelStruct["text"] = self.text
 
         return LevelStruct
     
@@ -288,5 +310,5 @@ class Level(object):
     def GetTwin( self ) -> Twin:
         return self.twin
     
-    def GetExit( self ) -> tuple:
+    def GetExit( self ) -> Exit:
         return self.exit

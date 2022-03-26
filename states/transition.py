@@ -1,5 +1,5 @@
 from states.state import State
-from pygame import Surface, SRCALPHA
+from pygame import Surface, SRCALPHA, mixer
 
 class Transition(State):
     def setup(self):
@@ -16,7 +16,8 @@ class Transition(State):
             if self.alpha >= 250:
                 self.speed = -5
                 self.manager._state = self.endstate
-            # if self.alpha == 150: # maybe a better transition sfx
+            if self.alpha == 150: # maybe a better transition sfx
+                mixer.fadeout(20)
             #     self.manager.music["transtion"].play()
             elif self.alpha <= 0:
                 self.active = False

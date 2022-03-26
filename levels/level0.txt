@@ -20,3 +20,4 @@ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 000000000000000000000000000000
 
 !maxMoves=25
+!AddText=13,15,Use WASD or arrow keys to move

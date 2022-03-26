@@ -27,7 +27,8 @@ class Main(object):
 
         self.music = {
             "transtion": pygame.mixer.Sound("assets/sfx/transtion.wav"),
-            "select": pygame.mixer.Sound("assets/sfx/select.wav")
+            "select": pygame.mixer.Sound("assets/sfx/select.wav"),
+            "main_menu": pygame.mixer.Sound("assets/music/main_menu.wav")
         }
 
         self.screen_shake = {
@@ -46,7 +47,9 @@ class Main(object):
             "level_editor": Editor(self)
         }
 
-        self._state = "game"
+        pygame.mixer.fadeout(0)
+
+        self._state = "intro"
 
     def events(self):
         self._events.clear()

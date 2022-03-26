@@ -4,6 +4,7 @@ from states.state import State
 LevelAmount = 3
 
 from level import Level
+from utils import mouseToGrid
 
 class Game(State):
     def setup(self):
@@ -35,6 +36,13 @@ class Game(State):
         
         if events.get("restart"):
             self.restart_level()
+        
+        #for testing
+        if events.get("mousebuttondown"):
+            if events["mousebuttondown"].button == 1:
+                print( mouseToGrid() )
+
+
         
         if self.level.requestNextLevel:
             self.level.requestNextLevel = False

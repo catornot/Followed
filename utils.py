@@ -4,6 +4,7 @@ from classes.boundary import Boundary
 from classes.trap import Trap
 from classes.key import Key
 from classes.player import Player
+from classes.text import Text
 from pygame import mouse
 import os
 # from classes.block import Block
@@ -37,6 +38,9 @@ def IsTwin( entity ):
 
 def IsBoundary( entity ):
     return isinstance( entity, Boundary )
+
+def IsText( entity ):
+    return isinstance( entity, Text )
 
 def IsAPickedUp( entity ):
     return entity.IsPickupable

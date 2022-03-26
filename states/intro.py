@@ -11,4 +11,4 @@ class Intro(State):
                 self.manager.music["select"].play()
 
     def render(self, surface):
-        self.manager.render_text(surface, "Intro", self.manager.SCREEN_C[0], 300)
+        self.manager.render_text(surface, "Intro\n\nmade by\nParallax\ncatornot", self.manager.SCREEN_C[0], 300)
