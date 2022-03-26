@@ -1,4 +1,4 @@
-# pyweek-core
+# Followed
 Game from the team core for pyweek 33
 
 The player is trying to escape will being followed by his evil twin
