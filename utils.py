@@ -6,8 +6,9 @@ from classes.key import Key
 from classes.player import Player
 from classes.text import Text
 from pygame import mouse
+from pygame import mixer
+from random import choice
 import os
-# from classes.block import Block
 
 """
 ██╗   ██╗████████╗██╗██╗     ███████╗
@@ -104,6 +105,23 @@ def MakeEmptyGridList() -> list:
             line.append( "0" )
         BlankGrid.append( line )
     return BlankGrid
+
+class music_manager:
+    def __init__(self) -> None:
+        self.music = {
+            "menu":["assets/music/main_menu.wav"],
+            "game":["assets/music/main1.wav","assets/music/main2.wav"]
+        }
+        self.current_state = ""
+
+    def update( self, state ):
+        if mixer.music.get_busy() != True or self.current_state != state:
+            mixer.music.fadeout(20)
+            for State in self.music.keys():
+                if state == State:
+                    mixer.music.load( choice(self.music[State]) )
+                    mixer.music.play()
+                    self.current_state = state
             
             
 

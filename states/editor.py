@@ -39,29 +39,29 @@ class Editor(State):
         for i in range(10):
             if events.get( str(i) ):
                 self.current_function = self.KeysToFunctions[ i ][0]
-                self.manager.music["select"].play()
+                self.manager.sfx["select"].play()
                 self.selected = self.KeysToFunctions[ i ][1]
         
         if mouse.get_pressed(3)[0]:
             closestPostion = mouseToGrid()
             if self.last_mouse_pos != closestPostion:
                 self.current_function( closestPostion[0],closestPostion[1] )
-                self.manager.music["select"].play()
+                self.manager.sfx["select"].play()
                 self.last_mouse_pos = closestPostion
 
         elif mouse.get_pressed(3)[2]:
             mouse_pos = mouseToGrid()
             if self.last_mouse_pos != mouse_pos:
-                self.manager.music["select"].play()
+                self.manager.sfx["select"].play()
                 self.level.RemoveBlockByPosition( mouse_pos )
                 self.last_mouse_pos = mouse_pos
         
         if events.get("level"):
-            self.manager.music["select"].play()
+            self.manager.sfx["select"].play()
             self.manager.transition_to("menu")
         
         if events.get("save"):
-            self.manager.music["select"].play()
+            self.manager.sfx["select"].play()
             self.save_level()
 
 

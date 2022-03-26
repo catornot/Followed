@@ -7,6 +7,8 @@ from states.game import Game
 from states.transition import Transition
 from states.editor import Editor
 
+from utils import music_manager as Music_Manager
+
 import random
 
 class Main(object):
@@ -20,15 +22,16 @@ class Main(object):
         self.CLOCK = pygame.time.Clock()
 
         self.DISPLAY = pygame.Surface((self.SCREEN_W, self.SCREEN_H), flags=pygame.SRCALPHA)
+        
+        self.music_manager = Music_Manager()
 
         self.fonts = {
             "general": pygame.font.Font("assets/fonts/oswald.ttf", 25)
         }
 
-        self.music = {
+        self.sfx = {
             "transtion": pygame.mixer.Sound("assets/sfx/transtion.wav"),
             "select": pygame.mixer.Sound("assets/sfx/select.wav"),
-            "main_menu": pygame.mixer.Sound("assets/music/main_menu.wav")
         }
 
         self.screen_shake = {
@@ -46,8 +49,6 @@ class Main(object):
             "transition": Transition(self),
             "level_editor": Editor(self)
         }
-
-        pygame.mixer.fadeout(0)
 
         self._state = "intro"
 
@@ -141,6 +142,8 @@ class Main(object):
                 self.screen_shake["duration"] -= 1
             else:
                 self.screen_shake["active"] = False
+        
+        self.music_manager.update( self._state )
 
     def render(self):
         self.DISPLAY.fill((0, 0, 0))

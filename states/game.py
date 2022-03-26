@@ -4,6 +4,7 @@ from states.state import State
 LevelAmount = 3
 
 from level import Level
+
 from utils import mouseToGrid
 
 class Game(State):
