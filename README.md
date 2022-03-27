@@ -1,9 +1,9 @@
 # Followed
-(Game)[https://github.com/catornot/Followed] from the team core for pyweek 33
+[Game](https://github.com/catornot/Followed) from the team core for pyweek 33
 
-**Music** : (cat_or_not)[https://github.com/catornot]
+**Music** : [cat_or_not](https://github.com/catornot)
 
-**Code** : (Parralax)[https://github.com/ItsIntense], (cat_or_not)[https://github.com/catornot]
+**Code** : [Parralax](https://github.com/ItsIntense), [cat_or_not](https://github.com/catornot)
 
 The player is trying to escape will being followed by his evil twin
 
