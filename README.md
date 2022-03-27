@@ -5,7 +5,7 @@
 
 **Code** : [Parralax](https://github.com/ItsIntense), [cat_or_not](https://github.com/catornot)
 
-The player is trying to escape will being followed by his evil twin
+The player is trying to escape while being followed by his evil twin
 
 ## installating & running from source
 to run this game you should have python 3.10 and pygame 2.1
