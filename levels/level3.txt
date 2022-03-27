@@ -18,3 +18,5 @@ bbbb0p0000T00bT00000000bbbbbbb
 bbbb000000T00bT0b000t000bbbbbb
 bbbbbbb000000000b000000kbbbbbb
 bbbbbbbbbbbbbbTbbbbbbbbbbbbbbb
+
+!maxMoves=60

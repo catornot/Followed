@@ -25,3 +25,4 @@ TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 !AddText=15,7,worked hard on this one
 !AddText=15,8,cat_or_not
 !AddText=15,9,<3
+!maxMoves=60

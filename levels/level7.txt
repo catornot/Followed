@@ -20,3 +20,4 @@ bTT000bbbb000000000000000000Tb
 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
 !ExitNeedsKey=False
+!maxMoves=60

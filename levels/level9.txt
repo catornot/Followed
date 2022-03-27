@@ -20,3 +20,4 @@ bT0000T00000bb000000bbbbbb00b0
 bbbbbbbbbbbbbbbbbbbbbbbbb0beb0
 
 !ExitNeedsKey=False
+!maxMoves=60

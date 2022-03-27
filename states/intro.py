@@ -11,4 +11,4 @@ class Intro(State):
                 self.manager.sfx["select"].play()
 
     def render(self, surface):
-        self.manager.render_text(surface, "Followed\n\nmade by\nParallax\nand\ncat_or_not", self.manager.SCREEN_C[0], 300)
+        self.manager.render_text(surface, "Followed\n\nmade by\nIntense\nand\ncat_or_not", self.manager.SCREEN_C[0], 300)

@@ -56,3 +56,4 @@ class Game(State):
 
     def render(self, surface):
         self.level.render(surface)
+        self.manager.render_text(surface, f"Moves: {self.level.maxMoves}", 10, 10, render_centerx=False, render_centery=False)

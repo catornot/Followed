@@ -57,7 +57,7 @@ class Level(object):
         self.requestNextLevel = False
         self.requestRestartLevel = False
 
-        self.maxMoves = 10
+        self.maxMoves = 0
         self._generateListOfBlocks()
     
     def load_level( self, levelName:str ) -> None:
@@ -147,6 +147,9 @@ class Level(object):
                     continue
                 break
         else:
+            self.maxMoves -= 1
+            if self.maxMoves <= 0:
+                self.requestRestartLevel = True
             self.player.move(direction)
         
         if resetBlockList:
