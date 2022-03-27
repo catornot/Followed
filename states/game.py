@@ -12,8 +12,8 @@ class Game(State):
         self.level = Level()
         self.current_level = 0
         self.load_level(self.current_level)
-        # self.level.loadLevelByIndex(9)
-        # self.current_level = 9
+        self.level.loadLevelByIndex(7)
+        self.current_level = 7
 
     def next_level(self):
         self.current_level += 1
@@ -41,9 +41,9 @@ class Game(State):
             self.restart_level()
         
         #for testing
-        if events.get("mousebuttondown"):
-            if events["mousebuttondown"].button == 1:
-                print( mouseToGrid() )
+        # if events.get("mousebuttondown"):
+        #     if events["mousebuttondown"].button == 1:
+        #         print( mouseToGrid() )
 
 
         

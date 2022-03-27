@@ -6,3 +6,6 @@ class Player(Block):
         self.symbol = "p"
         self.HasInventory = True
         self.inventory = { "keys": 0 }
+    
+    def ClearInventory( self ) -> None:
+        self.inventory = { "keys": 0 }

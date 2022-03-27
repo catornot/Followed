@@ -99,7 +99,7 @@ class Level(object):
                 self.maxMoves = int( script.split("=")[1] )
 
             elif script.startswith( "!ExitNeedsKey" ):
-                if not bool( script.split("=")[1] ): self.exit.DisableKeyNeed()
+                if "False" == script.split("=")[1]: self.exit.DisableKeyNeed()
             
             elif script.startswith( "!AddText" ):
                 posNtext = script.split("=")[1].split(",")
@@ -141,10 +141,10 @@ class Level(object):
                     continue
                 elif IsTrap( block ):
                     self.requestRestartLevel = True
-                elif IsKeyActivated( block ):
-                    if IsExit( block ):
+                elif IsExit( block ):
+                    if block.CanExit( self.player ):
                         self.requestNextLevel = True
-                    continue
+                        continue
                 break
         else:
             self.maxMoves -= 1
@@ -206,8 +206,10 @@ class Level(object):
     
     def ClearLevel( self ) -> None:
         self.player.move_to(0, 0)
+        self.player.ClearInventory()
         self.twin.move_to(0, 0)
         self.exit.move_to(0, 0)
+        self.exit.EnableKey()
         self.boundaries.clear()
         self.traps.clear()
         self.keys.clear()

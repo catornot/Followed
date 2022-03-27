@@ -19,4 +19,4 @@ bbbbb00000000T000b000000000bb0
 bbbbbk000e0000000bbbbbbbbbbb00
 bbbbbbbbbbbbbbbbbb000000000000
 
-!maxMoves=60
+!maxMoves=45
