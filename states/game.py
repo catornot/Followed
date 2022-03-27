@@ -1,7 +1,7 @@
 from states.state import State
 
 #constants
-LevelAmount = 9
+LevelAmount = 11
 
 from level import Level
 
@@ -12,6 +12,8 @@ class Game(State):
         self.level = Level()
         self.current_level = 0
         self.load_level(self.current_level)
+        # self.level.loadLevelByIndex(9)
+        # self.current_level = 9
 
     def next_level(self):
         self.current_level += 1
