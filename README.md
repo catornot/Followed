@@ -1,4 +1,4 @@
-# Follwed
+# Followed
 (Game)[https://github.com/catornot/Followed] from the team core for pyweek 33
 
 **Music** : (cat_or_not)[https://github.com/catornot]
