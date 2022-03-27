@@ -15,4 +15,4 @@ class Menu(State):
             self.manager.transition_to("level_editor")
 
     def render(self, surface):
-        self.manager.render_text(surface, "Menu", self.manager.SCREEN_C[0], 300)
+        self.manager.render_text(surface, "Start", self.manager.SCREEN_C[0], 300)

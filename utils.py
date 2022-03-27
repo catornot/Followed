@@ -5,6 +5,7 @@ from classes.trap import Trap
 from classes.key import Key
 from classes.player import Player
 from classes.text import Text
+from classes.push_block import PushBlock
 from pygame import mouse
 from pygame import mixer
 from random import choice
@@ -110,7 +111,8 @@ class music_manager:
     def __init__(self) -> None:
         self.music = {
             "menu":["assets/music/main_menu.wav"],
-            "game":["assets/music/main1.wav","assets/music/main2.wav"]
+            "game":["assets/music/main1.wav","assets/music/main2.wav"],
+            "level_editor":["assets/music/main1.wav","assets/music/main2.wav","assets/music/main_menu.wav"]
         }
         self.current_state = ""
 

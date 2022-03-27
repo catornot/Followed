@@ -20,4 +20,6 @@ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 000000000000000000000000000000
 
 !maxMoves=25
-!AddText=13,15,Use WASD or arrow keys to move
+!AddText=13,3,Use WASD or arrow keys to move
+!AddText=13,15,Do not get caught by the Twin
+!AddText=13,17,Do exit trought the white thing

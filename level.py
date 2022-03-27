@@ -5,6 +5,7 @@ from classes.boundary import Boundary
 from classes.trap import Trap
 from classes.key import Key
 from classes.text import Text
+from classes.push_block import PushBlock
 
 from utils import *
 
@@ -174,6 +175,9 @@ class Level(object):
                     self.keys.remove(block)
                     continue
                 if IsTrap( block ):
+                    self.requestRestartLevel = True
+                    continue
+                if IsPlayer( block ):
                     self.requestRestartLevel = True
                     continue
                 break

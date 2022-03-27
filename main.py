@@ -22,6 +22,10 @@ class Main(object):
         self.CLOCK = pygame.time.Clock()
 
         self.DISPLAY = pygame.Surface((self.SCREEN_W, self.SCREEN_H), flags=pygame.SRCALPHA)
+
+
+        pygame.display.set_icon(pygame.image.load('assets/icons/icon.ico'))
+        pygame.display.set_caption('Followed')
         
         self.music_manager = Music_Manager()
 
