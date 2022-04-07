@@ -7,6 +7,8 @@ class PushBlock(Block):
     
     def moveSelf( self, origin:tuple, blockList:list ) -> bool:
         
+        # TODO : test this
+        # NOTE : if you use the direction and .move() function it may be easiser :)
         CanMove = True
         pos = self.get_pos()
         destination = ( pos[0] - origin[0], pos[1] - origin[1] )
